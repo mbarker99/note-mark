@@ -1,5 +1,6 @@
 package com.mbarker99.notemark.core.presentation.designsystem.buttons
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -13,14 +14,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mbarker99.notemark.core.presentation.designsystem.theme.NoteMarkTheme
 import com.mbarker99.notemark.core.presentation.designsystem.theme.OnSurfaceOpacity12
 
-// needs filled and unfilled variants
 @Composable
-fun FilledButton(
+fun OutlinedButton(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -32,12 +33,11 @@ fun FilledButton(
         onClick = onClick,
         enabled = enabled,
         colors = ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.primary,
-            disabledContainerColor = MaterialTheme.colorScheme.surface,
-            contentColor = MaterialTheme.colorScheme.onPrimary,
-            disabledContentColor = OnSurfaceOpacity12
+            containerColor = Color.Transparent,
+            contentColor = MaterialTheme.colorScheme.primary,
         ),
-        shape = RoundedCornerShape(12.dp)
+        shape = RoundedCornerShape(12.dp),
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary),
     ) {
         leadingIcon?.invoke()
         if (leadingIcon != null) {
@@ -46,11 +46,7 @@ fun FilledButton(
         Text(
             text = text,
             style = MaterialTheme.typography.titleSmall,
-            color  = if (enabled) {
-                MaterialTheme.colorScheme.onPrimary
-            } else {
-                OnSurfaceOpacity12
-            }
+            color  = MaterialTheme.colorScheme.primary
         )
         if (trailingIcon != null) {
             Spacer(modifier = Modifier.width(8.dp))
@@ -61,17 +57,17 @@ fun FilledButton(
 
 @Preview
 @Composable
-private fun FilledButtonPreview() {
+private fun OutlinedButtonPreview() {
     NoteMarkTheme {
-        FilledButton(
+        OutlinedButton(
             text = "Label",
             onClick = { },
             enabled = true,
             leadingIcon = {
-                Icon(
+                /*Icon(
                     imageVector = Icons.Default.Build,
-                    contentDescription = null
-                )
+                    conte   ntDescription = null
+                )*/
             },
             trailingIcon = { }
         )
