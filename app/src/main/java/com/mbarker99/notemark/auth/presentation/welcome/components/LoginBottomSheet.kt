@@ -18,10 +18,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mbarker99.notemark.core.presentation.designsystem.buttons.FilledButton
 import com.mbarker99.notemark.core.presentation.designsystem.buttons.OutlinedButton
+import com.mbarker99.notemark.core.presentation.designsystem.textfields.BaseTextField
 import com.mbarker99.notemark.core.presentation.designsystem.theme.NoteMarkTheme
 
 @Composable
-fun LoginBottomSheet(modifier: Modifier = Modifier) {
+fun LoginBottomSheet(
+    email: String,
+    password: String,
+    onEmailChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
     Box(
         Modifier
             .background(MaterialTheme.colorScheme.surfaceContainerLowest)
@@ -52,7 +59,25 @@ fun LoginBottomSheet(modifier: Modifier = Modifier) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
 
-                // TODO : Text fields
+                BaseTextField(
+                    text = email,
+                    onValueChange = onEmailChange,
+                    modifier = Modifier.fillMaxWidth(),
+                    hintText = "john.doe@example.com",
+                    labelText = "Email",
+                )
+
+                Spacer(Modifier.height(16.dp))
+
+                BaseTextField(
+                    text = email,
+                    onValueChange = onEmailChange,
+                    modifier = Modifier.fillMaxWidth(),
+                    hintText = "Password",
+                    labelText = "Password",
+                )
+
+                Spacer(Modifier.height(24.dp))
 
                 FilledButton(
                     text = "Log in",
@@ -66,7 +91,8 @@ fun LoginBottomSheet(modifier: Modifier = Modifier) {
                 Text(
                     text = "Don't have an account?",
                     style = MaterialTheme.typography.titleSmall,
-                    color = MaterialTheme.colorScheme.primary
+                    color = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.padding(16.dp)
                 )
             }
 
@@ -82,7 +108,10 @@ fun LoginBottomSheet(modifier: Modifier = Modifier) {
 private fun LoginBottomSheetPreview() {
     NoteMarkTheme {
         LoginBottomSheet(
-
+            email = "",
+            password = "",
+            onEmailChange = {},
+            onPasswordChange = {},
         )
     }
     
