@@ -38,6 +38,7 @@ fun OutlinedButton(
         ),
         shape = RoundedCornerShape(12.dp),
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary),
+        modifier = modifier
     ) {
         leadingIcon?.invoke()
         if (leadingIcon != null) {

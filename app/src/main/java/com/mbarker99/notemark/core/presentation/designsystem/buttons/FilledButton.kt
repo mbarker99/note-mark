@@ -37,7 +37,8 @@ fun FilledButton(
             contentColor = MaterialTheme.colorScheme.onPrimary,
             disabledContentColor = OnSurfaceOpacity12
         ),
-        shape = RoundedCornerShape(12.dp)
+        shape = RoundedCornerShape(12.dp),
+        modifier = modifier
     ) {
         leadingIcon?.invoke()
         if (leadingIcon != null) {
