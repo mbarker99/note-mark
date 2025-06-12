@@ -20,6 +20,8 @@ import com.mbarker99.notemark.core.presentation.designsystem.theme.NoteMarkTheme
 
 @Composable
 fun WelcomeBottomSheet(
+    onGetStartedClicked: () -> Unit,
+    onLogInClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -48,7 +50,7 @@ fun WelcomeBottomSheet(
 
             FilledButton(
                 text = "Get Started",
-                onClick = { },
+                onClick = onGetStartedClicked,
                 modifier = Modifier.fillMaxWidth(),
             )
 
@@ -56,7 +58,7 @@ fun WelcomeBottomSheet(
 
             OutlinedButton(
                 text = "Log In",
-                onClick = { },
+                onClick = onLogInClicked,
                 modifier = Modifier.fillMaxWidth(),
             )
 
@@ -70,7 +72,8 @@ fun WelcomeBottomSheet(
 private fun WelcomeBottomSheetPreview() {
     NoteMarkTheme {
         WelcomeBottomSheet(
-
+            onGetStartedClicked = {},
+            onLogInClicked = {}
         )
     }
     

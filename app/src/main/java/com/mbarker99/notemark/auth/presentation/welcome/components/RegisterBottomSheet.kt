@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -18,12 +19,24 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mbarker99.notemark.core.presentation.designsystem.buttons.FilledButton
 import com.mbarker99.notemark.core.presentation.designsystem.buttons.OutlinedButton
+import com.mbarker99.notemark.core.presentation.designsystem.textfields.BaseTextField
 import com.mbarker99.notemark.core.presentation.designsystem.theme.NoteMarkTheme
 
 @Composable
-fun RegisterBottomSheet(modifier: Modifier = Modifier) {
+fun RegisterBottomSheet(
+    username: String,
+    email: String,
+    password: String,
+    confirmPassword: String,
+    onUsernameChanged: (String) -> Unit,
+    onEmailChanged: (String) -> Unit,
+    onPasswordChanged: (String) -> Unit,
+    onConfirmPasswordChanged: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
     Box(
         Modifier
+            .fillMaxHeight()
             .background(MaterialTheme.colorScheme.surfaceContainerLowest)
             .padding(horizontal = 16.dp)
             .padding(top = 32.dp)
@@ -52,7 +65,43 @@ fun RegisterBottomSheet(modifier: Modifier = Modifier) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
 
-                // TODO : Text fields
+                BaseTextField(
+                    text = username,
+                    onValueChange = onUsernameChanged,
+                    modifier = Modifier.fillMaxWidth(),
+                    hintText = "john.doe",
+                    labelText = "Username",
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+
+                BaseTextField(
+                    text = email,
+                    onValueChange = onEmailChanged,
+                    modifier = Modifier.fillMaxWidth(),
+                    hintText = "john.doe@example.com",
+                    labelText = "Email",
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+
+                BaseTextField(
+                    text = password,
+                    onValueChange = onPasswordChanged,
+                    modifier = Modifier.fillMaxWidth(),
+                    hintText = "Password",
+                    labelText = "Password",
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+
+                BaseTextField(
+                    text = confirmPassword,
+                    onValueChange = onConfirmPasswordChanged,
+                    modifier = Modifier.fillMaxWidth(),
+                    hintText = "Password",
+                    labelText = "Repeat password",
+                )
+
+                Spacer(modifier = Modifier.height(24.dp))
+
 
                 FilledButton(
                     text = "Create account",
@@ -82,7 +131,14 @@ fun RegisterBottomSheet(modifier: Modifier = Modifier) {
 private fun RegisterBottomSheetPreview() {
     NoteMarkTheme {
         RegisterBottomSheet(
-
+            username = "",
+            email = "",
+            password = "",
+            confirmPassword = "",
+            onUsernameChanged = { },
+            onEmailChanged = { },
+            onPasswordChanged = { },
+            onConfirmPasswordChanged = { }
         )
     }
 
