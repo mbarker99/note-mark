@@ -76,6 +76,7 @@ fun LoginBottomSheet(
                     modifier = Modifier.fillMaxWidth(),
                     hintText = "Password",
                     labelText = "Password",
+                    isPassword = true,
                 )
 
                 Spacer(Modifier.height(24.dp))

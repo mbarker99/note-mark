@@ -89,6 +89,7 @@ fun RegisterBottomSheet(
                     modifier = Modifier.fillMaxWidth(),
                     hintText = "Password",
                     labelText = "Password",
+                    isPassword = true
                 )
                 Spacer(modifier = Modifier.height(16.dp))
 
@@ -98,6 +99,7 @@ fun RegisterBottomSheet(
                     modifier = Modifier.fillMaxWidth(),
                     hintText = "Password",
                     labelText = "Repeat password",
+                    isPassword = true
                 )
 
                 Spacer(modifier = Modifier.height(24.dp))

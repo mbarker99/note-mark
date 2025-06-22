@@ -1,24 +1,32 @@
 package com.mbarker99.notemark.core.presentation.designsystem.textfields
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Visibility
+import androidx.compose.material.icons.outlined.VisibilityOff
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mbarker99.notemark.core.presentation.designsystem.theme.NoteMarkTheme
@@ -28,15 +36,17 @@ fun BaseTextField(
     text: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
-    hintText: String? = null,
-    hintTextStyle: TextStyle = MaterialTheme.typography.bodyLarge.copy(
-        color = MaterialTheme.colorScheme.onSurfaceVariant
-    ),
+    hintText: String,
     labelText: String? = null,
     labelTextStyle: TextStyle = MaterialTheme.typography.bodyMedium,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
-    keyboardOptions: KeyboardOptions = KeyboardOptions.Default
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    isPassword: Boolean = false
 ) {
+    var isPasswordVisible by remember {
+        mutableStateOf(false)
+    }
+
     Column(
         modifier = modifier
     ) {
@@ -45,37 +55,54 @@ fun BaseTextField(
                 text = labelText,
                 style = MaterialTheme.typography.bodyMedium
             )
-            Spacer(Modifier.height(7.dp))
+            Spacer(Modifier.height(6.dp))
         }
-        BasicTextField(
+        OutlinedTextField(
             value = text,
             onValueChange = onValueChange,
-            modifier = modifier,
-            textStyle = hintTextStyle,
-            keyboardOptions = keyboardOptions,
-            keyboardActions = keyboardActions,
-            decorationBox = { innerTextField ->
-                Box(
-                    contentAlignment = Alignment.CenterStart,
-                    modifier = Modifier
-                        .background(
-                            color = MaterialTheme.colorScheme.surface,
-                            shape = RoundedCornerShape(12.dp)
-                        )
-                        .padding(vertical = 16.dp)
-                        .padding(start = 16.dp)
-                        .padding(end = 12.dp)
-                ) {
-                    if (text.isBlank() && hintText != null) {
-                        Text(
-                            text = hintText,
-                            style = hintTextStyle
-                        )
-                    } else {
-                        innerTextField()
+            visualTransformation = if (isPassword) {
+                PasswordVisualTransformation('*')
+            } else VisualTransformation.None,
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedContainerColor = Color.Transparent,
+                focusedBorderColor = MaterialTheme.colorScheme.primary,
+                focusedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                unfocusedBorderColor = Color.Transparent,
+                unfocusedContainerColor = MaterialTheme.colorScheme.surface,
+                unfocusedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                cursorColor = MaterialTheme.colorScheme.primary
+            ),
+            shape = RoundedCornerShape(12.dp),
+            placeholder = {
+                Text(
+                    text = hintText,
+                    style = MaterialTheme.typography.bodyLarge
+                )
+            },
+            trailingIcon = {
+                if (isPassword) {
+                    IconButton(
+                        onClick = {
+                            isPasswordVisible = !isPasswordVisible
+                        }
+                    ) {
+                        if (!isPasswordVisible) {
+                            Icon(
+                                imageVector = Icons.Outlined.Visibility,
+                                contentDescription = "Hide password",
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        } else {
+                            Icon(
+                                imageVector = Icons.Outlined.VisibilityOff,
+                                contentDescription = "Show password",
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
                     }
                 }
-            }
+            },
+            modifier = Modifier.fillMaxWidth()
         )
     }
 
@@ -90,7 +117,10 @@ private fun BaseTextFieldPreview() {
             onValueChange = { },
             hintText = "john.doe@example.com",
             labelText = "Email",
-            modifier = Modifier.background(Color.White)
+            isPassword = true,
+            modifier = Modifier
+                .background(Color.White)
+                .fillMaxWidth()
         )
     }
 }
