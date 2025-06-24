@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.mbarker99.notemark.core.presentation.designsystem.BaseHyperLink
 import com.mbarker99.notemark.core.presentation.designsystem.buttons.FilledButton
 import com.mbarker99.notemark.core.presentation.designsystem.buttons.OutlinedButton
 import com.mbarker99.notemark.core.presentation.designsystem.textfields.BaseTextField
@@ -114,10 +115,10 @@ fun RegisterBottomSheet(
 
                 Spacer(modifier = Modifier.height(12.dp))
 
-                Text(
+                BaseHyperLink(
                     text = "Already have an account?",
-                    style = MaterialTheme.typography.titleSmall,
-                    color = MaterialTheme.colorScheme.primary
+                    onClick = {},
+                    modifier = Modifier.padding(16.dp)
                 )
             }
 

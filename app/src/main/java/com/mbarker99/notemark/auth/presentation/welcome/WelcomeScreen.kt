@@ -2,7 +2,11 @@ package com.mbarker99.notemark.auth.presentation.welcome
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetValue
@@ -14,6 +18,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -52,7 +57,8 @@ fun WelcomeScreen(
             }
         },
         sheetState = sheetState,
-        dragHandle = null
+        dragHandle = null,
+        modifier = modifier
     ) {
         when (currentScreen) {
             BottomSheetContent.Welcome -> {
@@ -98,7 +104,7 @@ fun WelcomeScreen(
         Image(
             painter = painterResource(R.drawable.welcome_doodles),
             contentDescription = null,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxWidth()
         )
     }
 
