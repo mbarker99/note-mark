@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">NoteMark</string>
+    <string name="username_error">Username must be at least 3 characters</string>
+    <string name="password_error">Password must be at least 8 characters and include a number or symbol</string>
+    <string name="email_error">Invalid email provided</string>
 </resources>

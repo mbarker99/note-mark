@@ -24,6 +24,7 @@ import com.mbarker99.notemark.auth.presentation.AuthAction
 import com.mbarker99.notemark.core.presentation.designsystem.BaseHyperLink
 import com.mbarker99.notemark.core.presentation.designsystem.buttons.FilledButton
 import com.mbarker99.notemark.core.presentation.designsystem.textfields.BaseTextField
+import com.mbarker99.notemark.core.presentation.designsystem.textfields.model.TextFieldType
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -89,6 +90,7 @@ fun RegisterScreen(
                         modifier = Modifier.fillMaxWidth(),
                         hintText = "john.doe",
                         labelText = "Username",
+                        type = TextFieldType.USERNAME
                     )
                     Spacer(modifier = Modifier.height(16.dp))
 
@@ -98,6 +100,7 @@ fun RegisterScreen(
                         modifier = Modifier.fillMaxWidth(),
                         hintText = "john.doe@example.com",
                         labelText = "Email",
+                        type = TextFieldType.EMAIL
                     )
                     Spacer(modifier = Modifier.height(16.dp))
 
@@ -108,6 +111,7 @@ fun RegisterScreen(
                         hintText = "Password",
                         labelText = "Password",
                         isPassword = true,
+                        type = TextFieldType.PASSWORD
                     )
                     Spacer(modifier = Modifier.height(16.dp))
 
@@ -117,7 +121,8 @@ fun RegisterScreen(
                         modifier = Modifier.fillMaxWidth(),
                         hintText = "Password",
                         labelText = "Repeat password",
-                        isPassword = true
+                        isPassword = true,
+                        type = TextFieldType.PASSWORD
                     )
 
                     Spacer(modifier = Modifier.height(24.dp))
