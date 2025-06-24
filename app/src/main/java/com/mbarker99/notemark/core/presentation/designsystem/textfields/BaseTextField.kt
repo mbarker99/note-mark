@@ -60,7 +60,7 @@ fun BaseTextField(
         OutlinedTextField(
             value = text,
             onValueChange = onValueChange,
-            visualTransformation = if (isPassword) {
+            visualTransformation = if (isPassword && !isPasswordVisible) {
                 PasswordVisualTransformation('*')
             } else VisualTransformation.None,
             colors = OutlinedTextFieldDefaults.colors(
