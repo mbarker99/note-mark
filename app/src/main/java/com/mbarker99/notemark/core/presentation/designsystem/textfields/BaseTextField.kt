@@ -72,7 +72,7 @@ fun BaseTextField(
         if (labelText != null) {
             Text(
                 text = labelText,
-                style = MaterialTheme.typography.bodyMedium
+                style = labelTextStyle
             )
             Spacer(Modifier.height(6.dp))
         }

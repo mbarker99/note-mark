@@ -3,4 +3,10 @@
     <string name="username_error">Username must be at least 3 characters</string>
     <string name="password_error">Password must be at least 8 characters and include a number or symbol</string>
     <string name="email_error">Invalid email provided</string>
+    <string name="log_in">Log in</string>
+    <string name="log_in_subtitle">Capture your thoughts and ideas.</string>
+    <string name="email_hint">john.doe@example.com</string>
+    <string name="email_label">Email</string>
+    <string name="password">Password</string>
+    <string name="dont_have_an_account">Don\'t have an account?</string>
 </resources>

@@ -18,9 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.mbarker99.notemark.auth.presentation.AuthState
-import com.mbarker99.notemark.auth.presentation.AuthViewModel
-import com.mbarker99.notemark.auth.presentation.AuthAction
+import com.mbarker99.notemark.auth.presentation.welcome.AuthAction
 import com.mbarker99.notemark.core.presentation.designsystem.BaseHyperLink
 import com.mbarker99.notemark.core.presentation.designsystem.buttons.FilledButton
 import com.mbarker99.notemark.core.presentation.designsystem.textfields.BaseTextField
@@ -30,7 +28,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun RegisterScreenRoot(
     onNavigateToLogin: () -> Unit,
-    viewModel: AuthViewModel = koinViewModel()
+    viewModel: RegisterViewModel = koinViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
@@ -38,7 +36,7 @@ fun RegisterScreenRoot(
         state = state,
         onAction = { action ->
             when (action) {
-                AuthAction.OnLogInClick -> onNavigateToLogin()
+                RegisterAction.OnAlreadyHaveAnAccountClicked -> onNavigateToLogin()
                 else -> Unit
             }
             viewModel.onAction(action)
@@ -48,8 +46,8 @@ fun RegisterScreenRoot(
 
 @Composable
 fun RegisterScreen(
-    state: AuthState,
-    onAction: (AuthAction) -> Unit
+    state: RegisterState,
+    onAction: (RegisterAction) -> Unit
 ) {
     Scaffold { innerPadding ->
         Box(
@@ -86,7 +84,7 @@ fun RegisterScreen(
 
                     BaseTextField(
                         text = state.username,
-                        onValueChange = { onAction(AuthAction.OnUsernameChange(it)) },
+                        onValueChange = { onAction(RegisterAction.OnUsernameChanged(it)) },
                         modifier = Modifier.fillMaxWidth(),
                         hintText = "john.doe",
                         labelText = "Username",
@@ -96,7 +94,7 @@ fun RegisterScreen(
 
                     BaseTextField(
                         text = state.email,
-                        onValueChange = { onAction(AuthAction.OnEmailChange(it)) },
+                        onValueChange = { onAction(RegisterAction.OnEmailChanged(it)) },
                         modifier = Modifier.fillMaxWidth(),
                         hintText = "john.doe@example.com",
                         labelText = "Email",
@@ -106,7 +104,7 @@ fun RegisterScreen(
 
                     BaseTextField(
                         text = state.password,
-                        onValueChange = { onAction(AuthAction.OnPasswordChange(it)) },
+                        onValueChange = { onAction(RegisterAction.OnPasswordChanged(it)) },
                         modifier = Modifier.fillMaxWidth(),
                         hintText = "Password",
                         labelText = "Password",
@@ -117,7 +115,7 @@ fun RegisterScreen(
 
                     BaseTextField(
                         text = state.confirmPassword,
-                        onValueChange = { onAction(AuthAction.OnConfirmPasswordChange(it)) },
+                        onValueChange = { onAction(RegisterAction.OnConfirmPasswordChanged(it)) },
                         modifier = Modifier.fillMaxWidth(),
                         hintText = "Password",
                         labelText = "Repeat password",
@@ -132,21 +130,18 @@ fun RegisterScreen(
                         text = "Create account",
                         onClick = { },
                         enabled = false,
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth()
                     )
 
                     Spacer(modifier = Modifier.height(12.dp))
 
                     BaseHyperLink(
                         text = "Already have an account?",
-                        onClick = { onAction(AuthAction.OnLogInClick) },
+                        onClick = { onAction(RegisterAction.OnAlreadyHaveAnAccountClicked) },
                         modifier = Modifier.padding(16.dp)
                     )
                 }
-
-
             }
-
         }
     }
 }

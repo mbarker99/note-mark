@@ -2,7 +2,6 @@ package com.mbarker99.notemark.auth.presentation.welcome
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,9 +20,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mbarker99.notemark.R
-import com.mbarker99.notemark.auth.presentation.AuthAction
-import com.mbarker99.notemark.auth.presentation.AuthState
-import com.mbarker99.notemark.auth.presentation.AuthViewModel
 import com.mbarker99.notemark.auth.presentation.welcome.components.WelcomeBottomSheet
 import com.mbarker99.notemark.core.presentation.designsystem.theme.NoteMarkTheme
 import org.koin.androidx.compose.koinViewModel
@@ -33,19 +29,15 @@ import org.koin.androidx.compose.koinViewModel
 fun WelcomeScreenRoot(
     onNavigateToLogin: () -> Unit,
     onNavigateToRegister: () -> Unit,
-    viewModel: AuthViewModel = koinViewModel()
 ) {
-    val state by viewModel.state.collectAsStateWithLifecycle()
 
     WelcomeScreen(
-        state = state,
         onAction = { action ->
             when (action) {
                 AuthAction.OnLogInClick -> onNavigateToLogin()
                 AuthAction.OnGetStartedClick -> onNavigateToRegister()
                 else -> Unit
             }
-            viewModel.onAction(action)
         }
     )
 }
@@ -53,7 +45,6 @@ fun WelcomeScreenRoot(
 
 @Composable
 fun WelcomeScreen(
-    state: AuthState,
     onAction: (AuthAction) -> Unit
 ) {
     Scaffold { innerPadding ->
@@ -89,7 +80,6 @@ fun WelcomeScreen(
 private fun WelcomeScreenPreview() {
     NoteMarkTheme {
         WelcomeScreen(
-            state = AuthState(),
             onAction = { }
         )
     }

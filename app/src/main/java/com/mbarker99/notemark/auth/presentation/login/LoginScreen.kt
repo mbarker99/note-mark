@@ -11,26 +11,28 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.mbarker99.notemark.auth.presentation.AuthState
-import com.mbarker99.notemark.auth.presentation.AuthViewModel
-import com.mbarker99.notemark.auth.presentation.AuthAction
+import com.mbarker99.notemark.R
+import com.mbarker99.notemark.auth.presentation.welcome.AuthAction
 import com.mbarker99.notemark.core.presentation.designsystem.BaseHyperLink
 import com.mbarker99.notemark.core.presentation.designsystem.buttons.FilledButton
 import com.mbarker99.notemark.core.presentation.designsystem.textfields.BaseTextField
+import com.mbarker99.notemark.core.presentation.designsystem.textfields.model.TextFieldType
 import com.mbarker99.notemark.core.presentation.designsystem.theme.NoteMarkTheme
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun LoginScreenRoot(
     onNavigateToRegister: () -> Unit,
-    viewModel: AuthViewModel = koinViewModel()
+    viewModel: LoginViewModel = koinViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
@@ -38,7 +40,7 @@ fun LoginScreenRoot(
         state = state,
         onAction = { action ->
             when (action) {
-                AuthAction.OnGetStartedClick -> onNavigateToRegister()
+                LoginAction.OnDontHaveAnAccountClicked -> onNavigateToRegister()
                 else -> Unit
             }
             viewModel.onAction(action)
@@ -48,8 +50,8 @@ fun LoginScreenRoot(
 
 @Composable
 fun LoginScreen(
-    state: AuthState,
-    onAction: (AuthAction) -> Unit
+    state: LoginState,
+    onAction: (LoginAction) -> Unit
 ) {
     Scaffold { innerPadding ->
         Column(
@@ -63,14 +65,14 @@ fun LoginScreen(
             verticalArrangement = Arrangement.Top,
         ) {
             Text(
-                text = "Log In",
+                text = stringResource(R.string.log_in),
                 style = MaterialTheme.typography.titleMedium
             )
 
             Spacer(modifier = Modifier.height(6.dp))
 
             Text(
-                text = "Capture your thoughts and ideas.",
+                text = stringResource(R.string.log_in_subtitle),
                 style = MaterialTheme.typography.bodyLarge
             )
 
@@ -83,28 +85,30 @@ fun LoginScreen(
 
                 BaseTextField(
                     text = state.email,
-                    onValueChange = { onAction(AuthAction.OnEmailChange(it)) },
+                    onValueChange = { onAction(LoginAction.OnEmailChanged(it)) },
                     modifier = Modifier.fillMaxWidth(),
-                    hintText = "john.doe@example.com",
-                    labelText = "Email",
+                    hintText = stringResource(R.string.email_hint),
+                    labelText = stringResource(R.string.email_label),
+                    type = TextFieldType.EMAIL
                 )
 
                 Spacer(Modifier.height(16.dp))
 
                 BaseTextField(
                     text = state.password,
-                    onValueChange = { onAction(AuthAction.OnPasswordChange(it)) },
+                    onValueChange = { onAction(LoginAction.OnPasswordChanged(it)) },
                     modifier = Modifier.fillMaxWidth(),
-                    hintText = "Password",
-                    labelText = "Password",
+                    hintText = stringResource(R.string.password),
+                    labelText = stringResource(R.string.password),
                     isPassword = true,
+                    type = TextFieldType.PASSWORD
                 )
 
                 Spacer(Modifier.height(24.dp))
 
                 FilledButton(
-                    text = "Log in",
-                    onClick = { },
+                    text = stringResource(R.string.log_in),
+                    onClick = { onAction(LoginAction.OnLogInClicked) },
                     enabled = false,
                     modifier = Modifier.fillMaxWidth(),
                 )
@@ -112,8 +116,8 @@ fun LoginScreen(
                 Spacer(modifier = Modifier.height(12.dp))
 
                 BaseHyperLink(
-                    text = "Don't have an account?",
-                    onClick = { onAction(AuthAction.OnGetStartedClick) },
+                    text = stringResource(R.string.dont_have_an_account),
+                    onClick = { onAction(LoginAction.OnDontHaveAnAccountClicked) },
                     modifier = Modifier.padding(16.dp)
                 )
             }
@@ -128,12 +132,9 @@ fun LoginScreen(
 private fun LoginScreenPreview() {
     NoteMarkTheme {
         LoginScreen(
-            state = AuthState(
-                isLoading = false,
-                username = "Michael",
+            state = LoginState(
                 email = "michael.barker@email.com",
                 password = "",
-                confirmPassword = ""
             ),
             onAction = {}
         )
