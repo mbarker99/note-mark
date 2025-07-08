@@ -1,13 +1,24 @@
 package com.mbarker99.notemark.auth.presentation.register
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.mbarker99.notemark.auth.domain.AuthDataSource
+import com.mbarker99.notemark.core.domain.util.Result
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
-class RegisterViewModel : ViewModel() {
+class RegisterViewModel(
+    private val authDataSource: AuthDataSource
+) : ViewModel() {
     private val _state = MutableStateFlow(RegisterState())
     val state = _state.asStateFlow()
+
+    private val eventChannel = Channel<RegisterEvent>()
+    val events = eventChannel.receiveAsFlow()
 
     fun onAction(action: RegisterAction) {
         when (action) {
@@ -15,8 +26,22 @@ class RegisterViewModel : ViewModel() {
             is RegisterAction.OnEmailChanged -> onEmailChanged(action.email)
             is RegisterAction.OnPasswordChanged -> onPasswordChanged(action.password)
             is RegisterAction.OnConfirmPasswordChanged -> onConfirmPasswordChanged(action.password)
-            RegisterAction.OnCreateAccountClicked -> TODO("Register function")
+            RegisterAction.OnCreateAccountClicked -> onCreateAccountClicked()
             else -> Unit
+        }
+    }
+
+    private fun onCreateAccountClicked() {
+        viewModelScope.launch {
+            val result = authDataSource.registerNewUser(
+                username = state.value.username,
+                email = state.value.email,
+                password = state.value.password
+            )
+            when (result) {
+                is Result.Success -> eventChannel.send(RegisterEvent.OnRegistrationSuccess)
+                is Result.Error -> eventChannel.send(RegisterEvent.OnRegistrationFailed)
+            }
         }
     }
 

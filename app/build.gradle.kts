@@ -21,12 +21,18 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField("String", "BASE_URL", "\"https://notemark.pl-coding.com/\"")
+            buildConfigField("String", "X_USER_EMAIL", "\"michael.barker1999@gmail.com\"")
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            buildConfigField("String", "BASE_URL", "\"https://notemark.pl-coding.com/\"")
+            buildConfigField("String", "X_USER_EMAIL", "\"michael.barker1999@gmail.com\"")
         }
     }
     compileOptions {
@@ -38,6 +44,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
@@ -69,4 +76,6 @@ dependencies {
     implementation(libs.androidx.compose.navigation)
     implementation(libs.kotlinx.serialization.json)
 
+    // Ktor
+    implementation(libs.bundles.ktor)
 }

@@ -1,5 +1,6 @@
 package com.mbarker99.notemark.auth.presentation.login
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -27,6 +29,7 @@ import com.mbarker99.notemark.core.presentation.designsystem.buttons.FilledButto
 import com.mbarker99.notemark.core.presentation.designsystem.textfields.BaseTextField
 import com.mbarker99.notemark.core.presentation.designsystem.textfields.model.TextFieldType
 import com.mbarker99.notemark.core.presentation.designsystem.theme.NoteMarkTheme
+import com.mbarker99.notemark.core.presentation.util.ObserveAsEvents
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -35,6 +38,18 @@ fun LoginScreenRoot(
     viewModel: LoginViewModel = koinViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+
+    val context = LocalContext.current
+    ObserveAsEvents(viewModel.events) { event ->
+        when (event) {
+            LoginEvent.OnLoginSuccessful -> {
+                Toast.makeText(context, "Login successful.", Toast.LENGTH_LONG).show()
+            }
+            LoginEvent.OnLoginFailed -> {
+                Toast.makeText(context, "Login successful.", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
 
     LoginScreen(
         state = state,
@@ -109,7 +124,7 @@ fun LoginScreen(
                 FilledButton(
                     text = stringResource(R.string.log_in),
                     onClick = { onAction(LoginAction.OnLogInClicked) },
-                    enabled = false,
+                    enabled = state.isConfirmButtonEnabled,
                     modifier = Modifier.fillMaxWidth(),
                 )
 

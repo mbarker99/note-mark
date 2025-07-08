@@ -1,5 +1,6 @@
 package com.mbarker99.notemark.auth.presentation.register
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -16,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mbarker99.notemark.auth.presentation.welcome.AuthAction
@@ -23,6 +25,7 @@ import com.mbarker99.notemark.core.presentation.designsystem.BaseHyperLink
 import com.mbarker99.notemark.core.presentation.designsystem.buttons.FilledButton
 import com.mbarker99.notemark.core.presentation.designsystem.textfields.BaseTextField
 import com.mbarker99.notemark.core.presentation.designsystem.textfields.model.TextFieldType
+import com.mbarker99.notemark.core.presentation.util.ObserveAsEvents
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -31,6 +34,18 @@ fun RegisterScreenRoot(
     viewModel: RegisterViewModel = koinViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+
+    val context = LocalContext.current
+    ObserveAsEvents(viewModel.events) { event ->
+        when (event) {
+            is RegisterEvent.OnRegistrationSuccess -> {
+                Toast.makeText(context, "User registered.", Toast.LENGTH_LONG).show()
+            }
+            is RegisterEvent.OnRegistrationFailed -> {
+                Toast.makeText(context, "Registration failed.", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
 
     RegisterScreen(
         state = state,
@@ -128,8 +143,8 @@ fun RegisterScreen(
 
                     FilledButton(
                         text = "Create account",
-                        onClick = { },
-                        enabled = false,
+                        onClick = { onAction(RegisterAction.OnCreateAccountClicked) },
+                        enabled = state.isConfirmButtonEnabled,
                         modifier = Modifier.fillMaxWidth()
                     )
 
